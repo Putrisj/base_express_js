@@ -4,7 +4,7 @@ var router = express.Router();
 
 // Bot Setting
 const TelegramBot = require('node-telegram-bot-api');
-const token = '2119066434:AAEc7vEuEATLby8XjN3BrzeZYRd251zMLvs';
+const token = '2128593131:AAFHIRkEpvHl7ctXWOJltFOmqmXH5d9-7ME';
 const bot = new TelegramBot(token, {polling: true});
 
 
@@ -15,7 +15,18 @@ bot.onText(/\/start/, (msg) => {
     bot.sendMessage(
         global_msg_id,
         `hello ${msg.chat.first_name}, welcome...\n
-        click /predict`
+        click /show_url`
+    );
+});
+
+bot.onText(/\/show_url/, (msg) => {
+    global_msg_id = msg.chat.id;
+    bot.sendMessage(
+        global_msg_id,
+        `
+            https://esp-telebot.herokuapp.com/api/sensor/123/65/78 \n
+            https://esp-telebot.herokuapp.com/api/test/cobacoba
+        `
     );
 });
 
@@ -32,15 +43,20 @@ router.get('/', (req, res, next) => {
   });
 });
 
-
-router.get('/sensor/:sensor1/:sensor2', (req, res, next) => {
+// https://esp-telebot.herokuapp.com/api/sensor/123/65/78
+router.get('/sensor/:sensor1/:sensor2/:sensor3', (req, res, next) => {
   try {
+      bot.sendMessage(
+            global_msg_id, //msg.id
+            `Pembacaan Sensor:: ${req.params.sensor1}, ${req.params.sensor2}, ${req.params.sensor3}`
+     );
       res.json({
         "status": 202,
         "messgae": "Success",
         "data": {
           "sensor_1": req.params.sensor1,
-          "sensor_2": req.params.sensor2
+          "sensor_2": req.params.sensor2,
+          "sensor_3": req.params.sensor3
         }
       });
   } catch (err) {
@@ -48,7 +64,7 @@ router.get('/sensor/:sensor1/:sensor2', (req, res, next) => {
   }
 });
 
-
+// https://esp-telebot.herokuapp.com/api/test/cobacoba
 router.get('/test/:key', function(req, res, next){
     bot.sendMessage(
             global_msg_id, //msg.id
