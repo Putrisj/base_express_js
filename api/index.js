@@ -25,7 +25,7 @@ bot.onText(/\/show_url/, (msg) => {
         global_msg_id,
         `
             https://esp-telebot.herokuapp.com/api/sensor/123/65/78 \n
-            https://esp-telebot.herokuapp.com/api/test/forum12putri
+            https://esp-telebot.herokuapp.com/api/test/cobacoba
         `
     );
 });
@@ -48,7 +48,9 @@ router.get('/sensor/:sensor1/:sensor2/:sensor3', (req, res, next) => {
   try {
       bot.sendMessage(
             global_msg_id, //msg.id
-            `Pembacaan Sensor:: ${req.params.sensor1}, ${req.params.sensor2}, ${req.params.sensor3}`
+           `     Sensor Kelembaban:: ${req.params.sensor1} \n
+            Sensor Jarak:: ${req.params.sensor2} cm \n
+            Sensor Suhu:: ${req.params.sensor3} °C`
      );
       res.json({
         "status": 202,
